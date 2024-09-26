@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google OAuth Login</title>
+  <!-- Google API client library -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .g_id_signin {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Portfolio</h1>
+  <p>Login with your Google account to access more features.</p>
+
+  <!-- Google Sign-in button -->
+  <div id="g_id_onload"
+       data-client_id="947318046138-87giqghc7u7hvr1g33a44503hel11evm.apps.googleusercontent.com"
+       data-callback="handleCredentialResponse"
+       data-auto_prompt="false">
+  </div>
+  <div class="g_id_signin" data-type="standard"></div>
+
+  <!-- Placeholder for user info -->
+  <div id="user-info" style="display:none;">
+    <h2>User Information</h2>
+    <p id="user-name"></p>
+    <p id="user-email"></p>
+    <img id="user-image" alt="User Image" width="100">
+  </div>
+
+  <script>
+    // Function to handle the login response
+    function handleCredentialResponse(response) {
+      // Parse the JWT token to extract user information
+      const userData = JSON.parse(atob(response.credential.split('.')[1]));
+      console.log("User data:", userData);
+
+      // Display user info on the page
+      document.getElementById('user-name').textContent = `Name: ${userData.name}`;
+      document.getElementById('user-email').textContent = `Email: ${userData.email}`;
+      document.getElementById('user-image').src = userData.picture;
+      document.getElementById('user-info').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
